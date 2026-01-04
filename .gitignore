@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Spark
+spark-warehouse/
+*.parquet
+*.crc
+
+# Data files
+data/raw/
+data/staging/
+data/processed/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db

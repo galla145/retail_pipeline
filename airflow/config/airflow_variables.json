@@ -1,0 +1,5 @@
+{
+  "s3_bucket": "retail-pipeline-bucket",
+  "spark_home": "/home/ec2-user/spark-3.5.1-bin-hadoop3",
+  "snowflake_database": "RETAIL_DB"
+}

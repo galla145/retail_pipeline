@@ -1,0 +1,6 @@
+{
+  "aws_region": "us-east-1",
+  "s3_bucket": "retail-data-pipeline-free",
+  "raw_data_path": "raw/",
+  "processed_data_path": "processed/"
+}

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<workbook xmlns:user="http://www.tableausoftware.com/xml/user"
+          xmlns="http://www.tableausoftware.com/xml/tableau"
+          version="18.1">
+
+  <!-- ===================== -->
+  <!--  DATA SOURCE SECTION  -->
+  <!-- ===================== -->
+  <datasources>
+    <datasource caption="Snowflake Retail Sales"
+                name="snowflake_retail_sales"
+                inline="true"
+                version="18.1">
+
+      <connection class="snowflake"
+                  account="NHWHUMA-JD80797"
+                  warehouse="COMPUTE_WH"
+                  database="RETAIL_DB"
+                  schema="PUBLIC"
+                  role="SYSADMIN"
+                  authentication="username-password">
+
+        <!-- Credentials are entered in Tableau UI -->
+      </connection>
+
+      <relation name="RETAIL_SALES_CURATED"
+                type="table"
+                table="[PUBLIC].[RETAIL_SALES_CURATED]"/>
+
+      <!-- ===================== -->
+      <!--      METADATA         -->
+      <!-- ===================== -->
+      <columns>
+        <column name="[ORDER_DATE]" datatype="date"/>
+        <column name="[PRODUCT]" datatype="string"/>
+        <column name="[CATEGORY]" datatype="string"/>
+        <column name="[REGION]" datatype="string"/>
+        <column name="[QUANTITY]" datatype="integer"/>
+        <column name="[SALES_AMOUNT]" datatype="real"/>
+      </columns>
+
+    </datasource>
+  </datasources>
+
+  <!-- ===================== -->
+  <!--        WORKSHEETS     -->
+  <!-- ===================== -->
+  <worksheets>
+
+    <!-- Total Sales -->
+    <worksheet name="Total Sales">
+      <table>
+        <view>
+          <datasource-dependencies datasource="snowflake_retail_sales">
+            <column name="[SALES_AMOUNT]" role="measure"/>
+          </datasource-dependencies>
+          <marks class="text">
+            <encodings>
+              <text>
+                <aggregation column="[SALES_AMOUNT]" function="sum"/>
+              </text>
+            </encodings>
+          </marks>
+        </view>
+      </table>
+    </worksheet>
+
+    <!-- Sales by Category -->
+    <worksheet name="Sales by Category">
+      <table>
+        <view>
+          <datasource-dependencies datasource="snowflake_retail_sales">
+            <column name="[CATEGORY]" role="dimension"/>
+            <column name="[SALES_AMOUNT]" role="measure"/>
+          </datasource-dependencies>
+          <marks class="bar">
+            <encodings>
+              <columns>
+                <field column="[CATEGORY]"/>
+              </columns>
+              <rows>
+                <aggregation column="[SALES_AMOUNT]" function="sum"/>
+              </rows>
+            </encodings>
+          </marks>
+        </view>
+      </table>
+    </worksheet>
+
+    <!-- Sales by Region -->
+    <worksheet name="Sales by Region">
+      <table>
+        <view>
+          <datasource-dependencies datasource="snowflake_retail_sales">
+            <column name="[REGION]" role="dimension"/>
+            <column name="[SALES_AMOUNT]" role="measure"/>
+          </datasource-dependencies>
+          <marks class="bar">
+            <encodings>
+              <columns>
+                <field column="[REGION]"/>
+              </columns>
+              <rows>
+                <aggregation column="[SALES_AMOUNT]" function="sum"/>
+              </rows>
+            </encodings>
+          </marks>
+        </view>
+      </table>
+    </worksheet>
+
+  </worksheets>
+
+  <!-- ===================== -->
+  <!--        DASHBOARD      -->
+  <!-- ===================== -->
+  <dashboards>
+    <dashboard name="Retail Sales Dashboard">
+      <zone>
+        <worksheet name="Total Sales"/>
+      </zone>
+      <zone>
+        <worksheet name="Sales by Category"/>
+      </zone>
+      <zone>
+        <worksheet name="Sales by Region"/>
+      </zone>
+    </dashboard>
+  </dashboards>
+
+</workbook>

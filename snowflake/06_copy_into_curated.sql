@@ -1,0 +1,4 @@
+COPY INTO RETAIL_SALES_CURATED
+FROM @retail_curated_stage
+FILE_FORMAT = (FORMAT_NAME = retail_csv_format)
+ON_ERROR = 'CONTINUE';

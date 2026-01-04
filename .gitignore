@@ -2,19 +2,21 @@
 __pycache__/
 *.pyc
 
-# Spark
-spark-warehouse/
-*.parquet
-*.crc
-
-# Data files
+# Spark / Data outputs
 data/raw/
 data/staging/
 data/processed/
+data/curated/
 
-# Environment
+# Secrets & configs
+config/*.json
+*.pem
 .env
+
+# Notebooks
+.ipynb_checkpoints/
 
 # OS
 .DS_Store
 Thumbs.db
+
